@@ -1,0 +1,95 @@
+#include<iostream>
+#include<string>
+#include"BankAccount.h"
+#include"CertificateOfDeposit.h"
+#include"CheckingAccount.h"
+#include "SavingsAccount.h"
+using namespace std;
+
+//Implemntation for BankAccount.h
+BankAccount::BankAccount()
+{
+        name = "";
+        accountNumber = 0;
+        balance = 0;
+}
+
+
+BankAccount::BankAccount(string AccountHoldersName,int AccNo,  double AccBal){
+        name = AccountHoldersName;
+        accountNumber = AccNo;
+        balance = AccBal;
+};
+
+string BankAccount::getName() { return name; }
+
+int BankAccount::getAccountNumber(){ return accountNumber; }
+
+double BankAccount::getBalance(){ return balance;}
+
+void BankAccount::Deposit(double nAccBal) { balance += nAccBal; }
+
+void BankAccount::WithDraw(double nAccBal) { balance -= nAccBal; }
+
+void BankAccount::PrintStatement() { cout << "This month statment :" <<  balance << endl; }
+
+//Implemintation for CertificateOfDeposit.h
+
+CertificateOfDeposit::CertificateOfDeposit(string name, double AccBal, int mM, int AccNo) : BankAccount(name, AccBal, AccNo){
+                maturityMonths = mM;
+                interestRate = 0.05;
+                currentCDMonth = 0;
+}
+
+CertificateOfDeposit::CertificateOfDeposit(string name, double AccBal, int AccNo) : BankAccount(name, AccBal, AccNo){
+                maturityMonths = 6;
+                interestRate = 0.05;
+                currentCDMonth = 0;
+}
+
+int CertificateOfDeposit::getCurrentCDMonth(){ return currentCDMonth;}
+
+double CertificateOfDeposit::getInterestRate(){ return interestRate;}
+
+int CertificateOfDeposit::getMaturityMonths(){  return maturityMonths; }
+
+// Implemntation for CheckingAccount.h
+
+CheckingAccount::CheckingAccount(string AccountHoldersName, double AccBal, int AccNo) : BankAccount(AccountHoldersName, AccBal, AccNo){}
+
+//Implemnatation for SavingsAccount.h
+SavingsAccount::SavingsAccount(string AccountHoldersName, double AccBal) : BankAccount(AccountHoldersName, AccBal)
+{
+interestRate = 0.03;
+}
+
+SavingsAccount::SavingsAccount(string AccountHoldersName, double AccBal, double iR) : BankAccount(AccountHoldersName, iR)
+{
+interestRate = iR;
+}
+
+double SavingsAccount::getInterestRate()
+{
+return interestRate;
+}
+
+void SavingsAccount::printStatement()
+{
+BankAccount::Deposit(getBalance() * getInterestRate(), "Interest");
+cout << "Savings Account Statement" << endl;
+cout << "Name: " << getName() << endl;
+cout << "Account Number: " << getAccountNumber() << endl;
+cout << "Interest Rate: " << getInterestRate() * 100 << "%" << endl << endl;
+cout << "Final Balance: " << getBalance() << endl << endl;
+}
+
+
+
+
+
+
+
+
+
+
+
